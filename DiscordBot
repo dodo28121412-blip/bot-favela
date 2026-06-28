@@ -1,0 +1,20 @@
+import discord
+from discord.ext import commands
+
+# Nastavenie práv (intents) pre bota
+intents = discord.Intents.default()
+intents.message_content = True  # Umožní botovi čítať obsah správ
+
+# Vytvorenie inštancie bota s prefixom pre príkazy (napr. !ping)
+bot = commands.Bot(command-prefix="!", intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f"Bot je online ako {bot.user}")
+
+@bot.command()
+async def ping(ctx):
+    await ctx.send("Pong!")
+
+# SEM VLOŽÍŠ SVOJ TOKEN (v Kroku 3)
+bot.run("MTUyMDcwNjUxMTMwNTk2OTY5NQ.GYZk6k.6t9zXCASZzQlHc7fzXxIzhSBUayyCM46K6INb8")
