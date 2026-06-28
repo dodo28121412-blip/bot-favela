@@ -1,4 +1,5 @@
 import discord
+import os
 from discord.ext import commands
 
 # Nastavenie práv (intents) pre bota
@@ -17,4 +18,4 @@ async def ping(ctx):
     await ctx.send("Pong!")
 
 # SEM VLOŽÍŠ SVOJ TOKEN (v Kroku 3)
-bot.run("MTUyMDcwNjUxMTMwNTk2OTY5NQ.GYZk6k.6t9zXCASZzQlHc7fzXxIzhSBUayyCM46K6INb8")
+bot.run(os.getenv('DISCORD_TOKEN'))
