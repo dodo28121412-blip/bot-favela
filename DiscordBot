@@ -1,12 +1,29 @@
 import discord
 import os
 from discord.ext import commands
+from flask import Flask
+from threading import Thread
 
-# Nastavenie práv (intents) pre bota
+# 1. Vytvorenie falošného webového servera pre Render
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot beží!"
+
+def run_web():
+    # Render automaticky posiela port v premennej prostredia PORT, inak použije 10000
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
+
+def keep_alive():
+    t = Thread(target=run_web)
+    t.start()
+
+# 2. Nastavenie Discord bota
 intents = discord.Intents.default()
-intents.message_content = True  # Umožní botovi čítať obsah správ
+intents.message_content = True
 
-# Vytvorenie inštancie bota s prefixom pre príkazy (napr. !ping)
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
@@ -17,5 +34,8 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send("Pong!")
 
-# SEM VLOŽÍŠ SVOJ TOKEN (v Kroku 3)
+# Spustíme webový server tesne pred štartom bota
+keep_alive()
+
+# Spustenie bota pomocou tokenu z Renderu
 bot.run(os.getenv('DISCORD_TOKEN'))
